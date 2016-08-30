@@ -14,4 +14,7 @@
   "scripts": {
     "postinstall": "bower install"
   }
+  "engines": {
+    "node": "4.4.5"
+  }
 }

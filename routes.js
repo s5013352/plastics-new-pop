@@ -37,3 +37,8 @@ router.get('*', function(req, res) {
     res.json({ message: 'Under Construction' });
 });
 
+
+
+
+
+module.exports = router;

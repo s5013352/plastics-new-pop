@@ -6,6 +6,7 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 
+
 // configuration ===========================================
     
 // config files
@@ -35,7 +36,9 @@ app.use(methodOverride('X-HTTP-Method-Override'));
 app.use(express.static(__dirname + '/public')); 
 
 // routes ==================================================
-require('./routes')(app); // configure our routes
+var route = require('./routes'); //file 'routes.js' contains all routes
+
+app.use('/',  route); //this makes the app uses the file 'routes.js' for all routing
 
 // start app ===============================================
 // startup our app at http://localhost:8080

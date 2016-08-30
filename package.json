@@ -1,0 +1,17 @@
+{
+  "name": "plastics-new-pop",
+  "version": "1.0.0",
+  "description": "B&C Plastics new pop",
+  "main": "server.js",
+  "repository": "",
+  "author": "Jacob Smith <jacob.smith6@griffithuni.edu.au>",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "bower": "^1.7.9",
+    "express": "^4.14.0",
+    "method-override": "^2.3.6"
+  }
+  "scripts": {
+    "postinstall": "bower install"
+  }
+}

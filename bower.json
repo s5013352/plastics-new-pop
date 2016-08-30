@@ -1,0 +1,17 @@
+{
+  "name": "plastics-new-pop",
+  "description": "B&C Plastics new pop",
+  "main": "server.js",
+  "authors": [
+    "Jacob Smith <jacob.smith6@griffithuni.edu.au>"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "angular": "^1.5.8",
+    "angular-route": "^1.5.8",
+    "animate.css": "^3.5.2",
+    "font-awesome": "font-awsome#^4.6.3"
+  }
+}

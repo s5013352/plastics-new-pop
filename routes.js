@@ -2,17 +2,13 @@ var express = require('express');
 
 var router = express.Router();
 
-var pg = require('pg');
-
-pg.defaults.ssl = true;
-pg.defaults.poolSize = 10;
-
+var pg = require('./pgSetup');
 
 var passport = require('./passportSetup');
 
 
 var auth = function(req, res, next) { 
-  if (!req.isAuthenticated()) res.json({message: 'nope'}); //can us req.isAuthenticated() to check if a user is autheticated
+  if (!req.isAuthenticated()) res.json({message: 'you are not currently logged in'}); //can us req.isAuthenticated() to check if a user is autheticated
   else next(); 
 };
 
@@ -69,7 +65,7 @@ router.route('/testdb')
 
 
 //route to test if login succesful (remove once front end login page / route is implemented)
-router.get('/login', auth, function(req, res) { res.json({ message: 'login get'}); });
+router.get('/login', auth, function(req, res) { res.json({ message: 'You are currently logged in'}); });
 
 
 //route for logging into app

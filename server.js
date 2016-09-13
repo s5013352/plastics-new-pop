@@ -6,7 +6,10 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 
-var session = require('express-session')
+var pg = require('./pgSetup');
+
+var session = require('express-session');
+var pgSession = require('connect-pg-simple')(session);
 
 var passport = require('./passportSetup');
 
@@ -41,7 +44,8 @@ app.use(express.static(__dirname + '/public'));
 
 // Session Setup
 app.use(session({
-    secret: 'keyboard cat', 
+    store: new pgSession({ pg : pg }),
+    secret: process.env.SESSION_SECRET,
     resave: false, 
     saveUninitialized: false
 }));

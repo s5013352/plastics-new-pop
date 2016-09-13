@@ -1,7 +1,4 @@
-var pg = require('pg');
-
-pg.defaults.ssl = true;
-pg.defaults.poolSize = 10;
+var pg = require('./pgSetup');
 
 
 // ----------- Passport Authentication setup ---------

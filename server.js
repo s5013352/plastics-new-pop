@@ -6,6 +6,10 @@ var app            = express();
 var bodyParser     = require('body-parser');
 var methodOverride = require('method-override');
 
+var session = require('express-session')
+
+var passport = require('./passportSetup');
+
 
 // configuration ===========================================
     
@@ -33,7 +37,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('X-HTTP-Method-Override')); 
 
 // set the static files location /public/img will be /img for users
-app.use(express.static(__dirname + '/public')); 
+app.use(express.static(__dirname + '/public'));
+
+// Session Setup
+app.use(session({
+    secret: 'keyboard cat', 
+    resave: false, 
+    saveUninitialized: false
+}));
+
+// setup and initialise passport authentication
+app.use(passport.initialize());
+app.use(passport.session());
 
 // routes ==================================================
 var route = require('./routes'); //file 'routes.js' contains all routes

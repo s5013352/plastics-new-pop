@@ -8,6 +8,14 @@ pg.defaults.ssl = true;
 pg.defaults.poolSize = 10;
 
 
+var passport = require('./passportSetup');
+
+
+var auth = function(req, res, next) { 
+  if (!req.isAuthenticated()) res.json({message: 'nope'}); //can us req.isAuthenticated() to check if a user is autheticated
+  else next(); 
+};
+
 
 /* -------example for API routing below ---------
 
@@ -57,6 +65,26 @@ router.route('/testdb')
     });
   });
 })
+
+
+
+//route to test if login succesful (remove once front end login page / route is implemented)
+router.get('/login', auth, function(req, res) { res.json({ message: 'login get'}); });
+
+
+//route for logging into app
+router.post('/login', passport.authenticate('local'), function(req, res) {
+  res.send(req.user);
+  //next();
+  
+});
+
+
+//route for logging out of app
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
 
 

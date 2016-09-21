@@ -490,6 +490,21 @@ exports.updateOrderedItems = function(req, res) {
 
 
 
+exports.deleteOrderedItems = function(req, res) {
+    
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        if(err) { return console.error('error fetching client from pool', err); }
+        client.query('DELETE FROM ordereditems WHERE ordereditemsid = $1 RETURNING *',[req.params.orderedItemsID], function(err, result) {
+            done();
+            if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); } 
+            else { res.json(formatOutput('success', null, result)); } //response is currently details of the deleted entry
+        });
+    });
+    
+};
+
+
+
 //TODO: Check all comments of dbFunctions.js & routes.js are right
 //      Test all routes and setup tests in postman
 //      add routes and funcs for specific instances (e.g. * ordereditems relating to orderID, * orders relating to customerID, etc.)

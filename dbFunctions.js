@@ -188,7 +188,7 @@ exports.createTool = function(req, res) {
         
         if(err) { return console.error('error fetching client from pool', err); }
         client.query('INSERT INTO tool VALUES (DEFAULT, $1, $2, $3, $4) RETURNING *', 
-        [req.body.toolLocation, req.body.setupSheet, req.body.qualityControlSheet, req.body.notes],
+        [req.body.toolLocation, req.body.setupSheet, req.body.qualityControlSheet, req.body.toolNotes],
         function(err, result) {
             done();
             if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); } 
@@ -232,8 +232,8 @@ exports.updateTool = function(req, res) {
     
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if(err) { return console.error('error fetching client from pool', err); }
-        client.query('UPDATE tool SET toollocation = $2, setupsheet = $3, qualitycontrolsheet = $4, notes = $5 WHERE toolid = $1 RETURNING *',
-        [req.body.toolID, req.body.toolLocation, req.body.setupSheet, req.body.qualityControlSheet, req.body.notes],
+        client.query('UPDATE tool SET toollocation = $2, setupsheet = $3, qualitycontrolsheet = $4, toolnotes = $5 WHERE toolid = $1 RETURNING *',
+        [req.body.toolID, req.body.toolLocation, req.body.setupSheet, req.body.qualityControlSheet, req.body.toolNotes],
         function(err, result) {
             done();
             if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); }
@@ -352,7 +352,7 @@ exports.createOrders = function(req, res) {
         
         if(err) { return console.error('error fetching client from pool', err); }
         client.query('INSERT INTO orders VALUES (DEFAULT, $1, $2, $3, $4, $5, DEFAULT) RETURNING *', 
-        [req.body.customerID, req.body.orderDate, req.body.purchaseOrderNumber, req.body.poDoc, req.body.notes],
+        [req.body.customerID, req.body.orderDate, req.body.purchaseOrderNumber, req.body.poDoc, req.body.orderNotes],
         function(err, result) {
             done();
             if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); } 
@@ -382,7 +382,7 @@ exports.getOrders = function(req, res) {
     
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if(err) { return console.error('error fetching client from pool', err); }
-        client.query('SELECT * FROM orders WHERE orderrid = $1',[req.params.orderID], function(err, result) {
+        client.query('SELECT * FROM orders WHERE orderid = $1',[req.params.orderID], function(err, result) {
             done();
             if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); }
             else { res.json(formatOutput('success', null, result)); }
@@ -396,7 +396,7 @@ exports.updateOrders = function(req, res) {
     
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
         if(err) { return console.error('error fetching client from pool', err); }
-        client.query('UPDATE orders SET customerid = $2, orderdate = $3, purchaseordernumber = $4, podoc = $5, notes = $6, orderclosed = $7 WHERE orderid = $1 RETURNING *',
+        client.query('UPDATE orders SET customerid = $2, orderdate = $3, purchaseordernumber = $4, podoc = $5, orderNotes = $6, orderclosed = $7 WHERE orderid = $1 RETURNING *',
         [req.body.orderID, req.body.customerID, req.body.orderDate, req.body.purchaseOrderNumber, req.body.poDoc, req.body.notes, req.body.orderClosed],
         function(err, result) {
             done();
@@ -505,7 +505,70 @@ exports.deleteOrderedItems = function(req, res) {
 
 
 
-//TODO: Check all comments of dbFunctions.js & routes.js are right
-//      Test all routes and setup tests in postman
-//      add routes and funcs for specific instances (e.g. * ordereditems relating to orderID, * orders relating to customerID, etc.)
+
+//------------------------------------------------------------------------------
+//-------------------------------Ease of Use DB functions-----------------------
+//------------------------------------------------------------------------------
+
+
+exports.getAllOrdersByCustID = function(req, res) {
+    
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        if(err) { return console.error('error fetching client from pool', err); }
+        client.query('SELECT * FROM orders WHERE customerid = $1',[req.params.customerID], function(err, result) {
+            done();
+            if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); }
+            else { res.json(formatOutput('success', null, result)); }
+        });
+    });
+    
+};
+
+
+exports.getAllItemsByCustID = function(req, res) {
+    
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        if(err) { return console.error('error fetching client from pool', err); }
+        client.query('SELECT * FROM item WHERE customerid = $1',[req.params.customerID], function(err, result) {
+            done();
+            if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); }
+            else { res.json(formatOutput('success', null, result)); }
+        });
+    });
+    
+};
+
+
+exports.getAllUsersByCustID = function(req, res) {
+    
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        if(err) { return console.error('error fetching client from pool', err); }
+        client.query('SELECT * FROM users WHERE customerid = $1',[req.params.customerID], function(err, result) {
+            done();
+            if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); }
+            else { res.json(formatOutput('success', null, result)); }
+        });
+    });
+    
+};
+
+
+exports.getAllOrderedItemsByOrderID = function(req, res) {
+    
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        if(err) { return console.error('error fetching client from pool', err); }
+        client.query('SELECT * FROM ordereditems WHERE orderid = $1',[req.params.orderID], function(err, result) {
+            done();
+            if (err) { console.error(err); res.status(400).json(formatOutput('error', err.message, err)); }
+            else { res.json(formatOutput('success', null, result)); }
+        });
+    });
+    
+};
+
+
+
+
+
+//TODO: Add specific "join" routes, test ease of use routes
 

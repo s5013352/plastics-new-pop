@@ -85,10 +85,12 @@ router.route('/testdb')
 router.get('/test', dbFunc.getAllCustomer);
 
 
+//------------------------------------------------------------------------------
+//-------------------------------Database Routes--------------------------------
+//------------------------------------------------------------------------------
 
-//------------------Database Routes--------------------------------------------
 
-//Customer CRUD
+//------------------------------Customer CRUD-----------------------------------
 
 router.post('/db/customer', auth(['rep', 'admin']), dbFunc.createCustomer); //Create a new Customer
 
@@ -101,7 +103,7 @@ router.put('/db/customer', auth(['rep', 'admin']), dbFunc.updateCustomer); //upd
 router.delete('/db/customer/:customerID', auth(['rep', 'admin']), dbFunc.deleteCustomer); //delete the provided customer
 
 
-//Users CRUD
+//-------------------------------Users CRUD-------------------------------------
 
 router.post('/db/users', auth(['admin']), dbFunc.createUser); //Create a new user
 
@@ -114,7 +116,7 @@ router.put('/db/users', auth(['admin']), dbFunc.updateUsers); //update a user
 router.delete('/db/users/:userID', auth(['admin']), dbFunc.deleteUsers); //delete the provided user
 
 
-//Tool CRUD
+//----------------------------Tool CRUD-----------------------------------------
 
 router.post('/db/tool', auth(['rep', 'admin']), dbFunc.createTool); //Create a new Tool
 
@@ -127,7 +129,7 @@ router.put('/db/tool', auth(['rep', 'admin']), dbFunc.updateTool); //update a to
 router.delete('/db/tool/:toolID', auth(['rep', 'admin']), dbFunc.deleteTool); //delete the provided tool
 
 
-//Item CRUD
+//------------------------------Item CRUD---------------------------------------
 
 router.post('/db/item', auth(['rep', 'admin']), dbFunc.createItem); //Create a new Item
 
@@ -140,7 +142,7 @@ router.put('/db/item', auth(['rep', 'admin']), dbFunc.updateItem); //update an i
 router.delete('/db/item/:itemID', auth(['rep', 'admin']), dbFunc.deleteItem); //delete the provided item
 
 
-//Orders CRUD
+//-------------------------Orders CRUD------------------------------------------
 
 router.post('/db/orders', auth(['customer','rep', 'admin']), dbFunc.createOrders); //Create a new order
 
@@ -153,7 +155,7 @@ router.put('/db/orders', auth(['customer', 'rep', 'admin']), dbFunc.updateOrders
 router.delete('/db/orders/:orderID', auth(['customer', 'rep', 'admin']), dbFunc.deleteOrders); //delete the provided order
 
 
-//OrderedItems CRUD
+//------------------OrderedItems CRUD-------------------------------------------
 
 router.post('/db/orderedItems', auth(['rep', 'admin']), dbFunc.createOrderedItems); //Create a new OrderedItem
 
@@ -166,7 +168,23 @@ router.put('/db/orderedItems', auth(['rep', 'admin']), dbFunc.updateOrderedItems
 router.delete('/db/orderedItems/:orderedItemsID', auth(['rep', 'admin']), dbFunc.deleteOrderedItems); //delete the provided orderedItem
 
 
+//---------------------------Ease of use DB routes------------------------------
 
+router.get('/db/ordersby/:customerID', auth(['rep', 'admin']), dbFunc.getAllOrdersByCustID); //returns all orders placed by a single customer
+
+router.get('/db/itemsby/:customerID', auth(['rep', 'admin']), dbFunc.getAllItemsByCustID); //returns all items owned by a single customer
+
+router.get('/db/usersby/:customerID', auth(['admin']), dbFunc.getAllUsersByCustID); //returns all users associated with a given customer
+
+router.get('/db/ordereditemsby/:orderID', auth(['rep', 'admin']), dbFunc.getAllOrderedItemsByOrderID); //returns all items relating to a specifc order
+
+
+
+
+
+//------------------------------------------------------------------------------
+//------------------------------Auth Routes-------------------------------------
+//------------------------------------------------------------------------------
 
 
 //route to test if login succesful (remove once front end login page / route is implemented)
@@ -189,6 +207,11 @@ router.get('/logout', function(req, res) {
   });
 
 
+
+
+//------------------------------------------------------------------------------
+//----------------------------------Front End Routes----------------------------
+//------------------------------------------------------------------------------
 
 
 

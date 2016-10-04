@@ -567,8 +567,3 @@ exports.getAllOrderedItemsByOrderID = function(req, res) {
 };
 
 
-
-
-
-//TODO: Add specific "join" routes, test ease of use routes
-

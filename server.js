@@ -16,15 +16,10 @@ var passport = require('./passportSetup');
 
 // configuration ===========================================
     
-// config files
-//var db = require('./config/db');
 
 // set our port
 var port = process.env.PORT || 8080; 
 
-// connect to our mongoDB database 
-// (uncomment after you enter in your own credentials in config/db.js)
-//mongoose.connect(db.url); 
 
 // get all data/stuff of the body (POST) parameters
 // parse application/json 
@@ -39,7 +34,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override')); 
 
-// set the static files location /public/img will be /img for users
+// set the static files location /public
 app.use(express.static(__dirname + '/public'));
 
 // Session Setup
